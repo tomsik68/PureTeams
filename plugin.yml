@@ -1,2 +1,9 @@
 name: PureTeams
+main: eu.atsplustom.pureteams.plugin.PureTeamsPlugin
 version: 0.1
+database: true
+permissions:
+  teams.create:
+    description: Allows you to create a team.
+  teams.use:
+    description: Allows you to join/leave a team.
