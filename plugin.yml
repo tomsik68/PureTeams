@@ -2,6 +2,12 @@ name: PureTeams
 main: eu.atsplustom.pureteams.plugin.PureTeamsPlugin
 version: 0.1
 database: true
+commands:
+  teams:
+    description: something here.
+    usage: /teams <cmd> [parameters]
+    permission: teams.use
+    permission-message: Too bad! You have no permission to use this command!
 permissions:
   teams.create:
     description: Allows you to create a team.

@@ -1,15 +1,30 @@
 package eu.atsplustom.pureteams.api;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.metadata.Metadatable;
-
+/** Represents a team. Group of people.
+ *  Team is {@link Metadatable}, so that we can attach some data.
+ *
+ */
 public interface Team extends Metadatable{
     /**
      * 
      * @return name of this {@link Team}
      */
     public String getName();
+    /**
+     * 
+     * @param name - New name of this team
+     */
+    public void setName(String name);
+    /**
+     * 
+     * @return - Unique ID for this team
+     */
+    public UUID getUUID();
+    
     /**
      * 
      * @return {@link List} of {@link Player}s in this {@link Team}
@@ -45,4 +60,9 @@ public interface Team extends Metadatable{
      * @param player - Player we don't want in this {@link Team} anymore
      */
     public void removePlayer(String player);
+    /**
+     * 
+     * @return Context this team belongs to
+     */
+    public TeamContext getContext();
 }

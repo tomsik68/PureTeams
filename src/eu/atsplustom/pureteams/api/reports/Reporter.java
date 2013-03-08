@@ -2,16 +2,17 @@ package eu.atsplustom.pureteams.api.reports;
 
 import java.util.Queue;
 
-import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
  * Thing that is possible for sending messages to players. If they're offline,
  * the message will be sent once the player logs in. That's the point!
  * 
- * @author Tomsik68
  * 
  */
-public interface Reporter {
+public interface Reporter extends Listener{
     /**
      * Adds message to Reporter's send queue
      * 
@@ -23,12 +24,12 @@ public interface Reporter {
     public void sendMessage(String playerName, String... message);
 
     /**
-     * Called by Listener when <b>player</b> joins the server
+     * Called by server when <b>player</b> joins the server
      * 
-     * @param player
-     *            - {@link Player} who joined
+     * @param event - The event instance that holds information about player who joined(player can be accessed via event.getPlayer) 
      */
-    public void playerJoined(Player player);
+    @EventHandler
+    public void playerJoined(PlayerJoinEvent event);
 
     /**
      * 
