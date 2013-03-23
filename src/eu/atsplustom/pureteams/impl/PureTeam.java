@@ -2,8 +2,6 @@ package eu.atsplustom.pureteams.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
@@ -13,17 +11,17 @@ import eu.atsplustom.pureteams.plugin.PureTeamsPlugin;
 
 public class PureTeam implements Team{
     //All of these have to be protected, so EBean subclass can see them
-    protected UUID uuid;
-    protected String context, name;
+    protected String context, name, leader;
     protected List<String> members;
-    protected boolean open;
+    protected short flags = 0;
     
-    public PureTeam(String name, String context, boolean open){
-        uuid = UUID.randomUUID();
+    public PureTeam(){}
+    
+    public PureTeam(String name, String context, String leader){
         this.name = name;
         this.context = context;
+        this.leader = leader;
         members = new ArrayList<String>();
-        this.open = open;
     }
 
     @Override
@@ -60,35 +58,23 @@ public class PureTeam implements Team{
     }
 
     @Override
-    public UUID getUUID() {
-        return uuid;
-    }
-
-    @Override
     public List<String> getPlayers() {
         return members;
     }
 
     @Override
     public float getDiplomacy(Team other) {
-        // TODO Auto-generated method stub
-        return 0;
+        if(!other.getContextName().equalsIgnoreCase(getContextName()))
+            throw new IllegalArgumentException("Can't compare teams from different contexts.");
+        return PureTeamsPlugin.db.getDiplomacy(name, other.getName(), context).getDiplomacy();
     }
-
-    @Override
-    public boolean isOpen() {
-        return open;
-    }
-
     @Override
     public String getLeader() {
-        // TODO Auto-generated method stub
-        return null;
+        return leader;
     }
 
     @Override
     public void addPlayer(String player) {
-        // TODO Auto-generated method stub
         members.add(player);
         
     }
@@ -102,6 +88,24 @@ public class PureTeam implements Team{
     public TeamContext getContext() {
         //TODO can we go with something else than a static thing?
         return PureTeamsPlugin.db.getContext(context);
+    }
+
+    @Override
+    public boolean getFlag(short flag) {
+        return (flags | flag) == 1;
+    }
+
+    @Override
+    public void setFlag(short flag, boolean b) {
+        if(b)
+            flags |= flag;
+        else
+            flags &= ~flag;
+    }
+
+    @Override
+    public String getContextName() {
+        return context;
     }
 
 }

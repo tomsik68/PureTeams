@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 /**
  * Thing that is possible for sending messages to players. If they're offline,
  * the message will be sent once the player logs in. That's the point!
- * 
+ * There is going to be a default API for reporter + APIs for some major e-mailing/PM plugins which are worth it. :) 
  * 
  */
 public interface Reporter extends Listener{

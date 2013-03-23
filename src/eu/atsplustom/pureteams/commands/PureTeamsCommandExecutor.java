@@ -1,9 +1,11 @@
-package eu.atsplustom.pureteams.plugin;
+package eu.atsplustom.pureteams.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import eu.atsplustom.pureteams.plugin.PureTeamsPlugin;
 
 /**
  * This class serves as a command executer for the plugin, functionality may be
@@ -12,6 +14,7 @@ import org.bukkit.entity.Player;
  */
 public class PureTeamsCommandExecutor implements CommandExecutor
 {
+	@SuppressWarnings("unused")
 	private PureTeamsPlugin plugin;
 
 	public PureTeamsCommandExecutor(PureTeamsPlugin plugin)
@@ -29,14 +32,16 @@ public class PureTeamsCommandExecutor implements CommandExecutor
 		}
 		if(args.length < 1) return false; //Could be changed to help or something
 		
-		switch(PureTeamsCommands.getEnum(args[0]))
+		PureTeamsCommands ptc = PureTeamsCommands.getEnum(args[0]);
+		if(ptc == null) return false;
+		
+		switch(ptc)
 		{
 			case CREATE: sender.sendMessage("Create command invoked!"); return true;
 			case DELETE: sender.sendMessage("Delete command invoked!"); return true;
 			case JOIN: sender.sendMessage("Join command invoked!"); return true;
 			//TODO: Is NO_MATCH necessary? How about default? :)
-			case NO_MATCH: sender.sendMessage("This is "+plugin.getDescription().getName()
-					+" version "+plugin.getDescription().getVersion()); return false;
+			//		You're right its not really needed :) I replaced it with null and a check.
 			
 			default: return false;
 		}

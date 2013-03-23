@@ -2,9 +2,15 @@ package eu.atsplustom.pureteams.plugin;
 
 //import org.bukkit.ChatColor;
 //import org.bukkit.plugin.PluginDescriptionFile;
+import java.util.List;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.atsplustom.pureteams.api.Teams;
 import eu.atsplustom.pureteams.api.database.DatabaseManager;
+import eu.atsplustom.pureteams.commands.PureTeamsCommandExecutor;
+import eu.atsplustom.pureteams.impl.NormalDatabaseManager;
+import eu.atsplustom.pureteams.impl.PureTeams;
 
 /**
  * The main class for the plugin, so to speak.
@@ -24,8 +30,9 @@ public class PureTeamsPlugin extends JavaPlugin
 	 * This will give the option to color code the messages using ChatColor.RED etc.
 	 */
     
-    //TODO actually implement DatabaseManager :P
     public static DatabaseManager db;
+    //TODO static/public or something like that?
+    private Teams teams;
     
 	@Override
     public void onEnable()
@@ -42,8 +49,10 @@ public class PureTeamsPlugin extends JavaPlugin
 			this.getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
+		db = new NormalDatabaseManager(getDatabase());
 		db.init(this);
 		
+		teams = new PureTeams(db);
 		this.getLogger().info("Sucessfully Loaded!");
     }
 	
@@ -52,9 +61,14 @@ public class PureTeamsPlugin extends JavaPlugin
 	{
 		this.getLogger().info("Gracefully Stopped!");
 	}
-	//We need to make this public, so that it can be used in DatabaseManager
+	// We need to make this public, so that it can be used in DatabaseManager
 	@Override
 	public void installDDL() {
 	    super.installDDL();
+	}
+	// This tells server which classes we want to store in database
+	@Override
+	public List<Class<?>> getDatabaseClasses() {
+	    return NormalDatabaseManager.getDatabaseClasses();
 	}
 }

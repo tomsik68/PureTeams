@@ -2,7 +2,7 @@ package eu.atsplustom.pureteams.api;
 
 import java.util.List;
 
-import org.bukkit.metadata.MetadataStore;
+import org.bukkit.metadata.MetadataStoreBase;
 
 /** Something like main class that connects everything
  * 
@@ -24,7 +24,6 @@ public interface Teams {
      * 
      * @return MetadataStore where Teams can store Metadata
      */
-    public MetadataStore<Team> getTeamMetadataStore();
-    
+    public MetadataStoreBase<Team> getTeamMetadataStore();
     
 }
